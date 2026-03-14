@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luiza Boechat — Systems Architect</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #111213;
+    --bg-mid:    #191b1d;
+    --bg-card:   #1e2124;
+    --bg-hover:  #242729;
+    --border:    rgba(255,255,255,0.07);
+    --border-hi: rgba(255,255,255,0.14);
+    --accent:    #c8c8c8;
+    --text-1:    #f0f0f0;
+    --text-2:    #9a9fa6;
+    --text-3:    #5e6470;
+    --white:     #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text-1); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+
+  /* NAV */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 4rem; background: rgba(17,18,19,0.93); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--text-1); text-decoration: none; cursor: pointer; background: none; border: none; font-family: 'Playfair Display', serif; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a, .nav-links button { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-2); text-decoration: none; background: none; border: none; cursor: pointer; transition: color 0.2s; font-family: 'DM Sans', sans-serif; }
+  .nav-links a:hover, .nav-links button:hover { color: var(--text-1); }
+
+  /* BUTTONS */
+  .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.8rem 1.75rem; font-family: 'DM Sans', sans-serif; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: all 0.2s; border: 1px solid var(--border-hi); background: transparent; color: var(--text-1); }
+  .btn:hover { background: var(--bg-hover); border-color: var(--accent); color: var(--white); }
+  .btn-primary { background: var(--text-1); color: var(--bg); border-color: var(--text-1); }
+  .btn-primary:hover { background: var(--white); color: var(--bg); border-color: var(--white); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: center; padding: 10rem 4rem 6rem; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--border-hi), transparent); }
+  .hero-inner { max-width: 860px; position: relative; }
+
+  .hero-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-3); margin-bottom: 1.75rem; display: flex; align-items: center; gap: 1rem; }
+  .hero-eyebrow::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--text-3); }
+
+  h1 { font-family: 'Playfair Display', serif; font-size: clamp(3.2rem, 7vw, 5.8rem); font-weight: 600; line-height: 1.04; color: var(--white); margin-bottom: 1rem; letter-spacing: -0.015em; }
+
+  .hero-role { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); margin-bottom: 2rem; }
+  .hero-role span { color: var(--text-2); }
+  .hero-role span + span::before { content: ' · '; color: var(--text-3); }
+
+  .hero-sub { font-size: 1.05rem; font-weight: 300; font-style: italic; color: var(--text-2); max-width: 520px; line-height: 1.85; margin-bottom: 3rem; }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  /* SKILLS */
+  .skills-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2.5rem 4rem; background: var(--bg-mid); }
+  .skills-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 0.65rem; align-items: center; justify-content: center; }
+  .skill-tag { padding: 0.35rem 0.9rem; border: 1px solid var(--border); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.07em; color: var(--text-2); transition: all 0.2s; }
+  .skill-tag:hover { border-color: var(--border-hi); color: var(--text-1); }
+
+  /* SECTION */
+  section { padding: 7rem 4rem; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.75rem; }
+  .section-label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--text-3); }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 600; color: var(--white); margin-bottom: 3.5rem; line-height: 1.2; }
+
+  /* PROJECTS */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .project-card { background: var(--bg); padding: 2.25rem; cursor: pointer; transition: background 0.2s; position: relative; }
+  .project-card:hover { background: var(--bg-card); }
+  .project-tag { display: inline-block; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 1rem; }
+  .project-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600; color: var(--text-1); margin-bottom: 0.85rem; line-height: 1.3; transition: color 0.2s; }
+  .project-card:hover .project-title { color: var(--white); }
+  .project-desc { font-size: 0.87rem; font-weight: 300; color: var(--text-2); line-height: 1.75; }
+  .project-tool { margin-top: 1.5rem; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); display: flex; align-items: center; gap: 0.5rem; }
+  .project-tool::before { content: ''; display: block; width: 1rem; height: 1px; background: var(--text-3); }
+  .project-arrow { position: absolute; bottom: 2.25rem; right: 2.25rem; font-size: 1rem; color: var(--text-3); transition: all 0.2s; opacity: 0; }
+  .project-card:hover .project-arrow { opacity: 1; color: var(--text-1); transform: translate(2px, -2px); }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border-hi), transparent); max-width: 1200px; margin: 0 auto; }
+
+  /* CONTACT */
+  .contact-section { padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .contact-left .section-title { margin-bottom: 1.5rem; }
+  .contact-philosophy { font-size: 0.95rem; font-weight: 300; color: var(--text-2); line-height: 1.9; margin-bottom: 1.5rem; }
+  .contact-philosophy strong { color: var(--text-1); font-weight: 500; }
+  .contact-right { padding-top: 0.5rem; }
+  .contact-form-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-3); margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem; }
+  .contact-form-label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--text-3); }
+  .contact-detail { border-left: 1px solid var(--border); padding-left: 1.5rem; margin-bottom: 2rem; }
+  .contact-detail-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.3rem; }
+  .contact-detail a, .contact-detail span { font-size: 1rem; color: var(--text-1); text-decoration: none; transition: color 0.2s; }
+  .contact-detail a:hover { color: var(--white); }
+
+  /* FOOTER */
+  .site-footer { border-top: 1px solid var(--border); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; background: var(--bg); }
+  .footer-name { font-family: 'Playfair Display', serif; font-size: 0.9rem; color: var(--text-3); }
+  .footer-copy { font-size: 0.72rem; color: var(--text-3); }
+
+  /* ABOUT PAGE */
+  .about-page { padding-top: 8rem; }
+  .about-hero { padding: 4rem 4rem 5rem; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .about-name { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 600; color: var(--white); margin-bottom: 0.75rem; }
+  .about-roles { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 3rem; }
+  .about-roles span { color: var(--text-2); }
+  .about-roles span + span::before { content: ' · '; color: var(--text-3); }
+  .about-tagline { font-family: 'Playfair Display', serif; font-size: clamp(1.25rem, 2.5vw, 1.65rem); font-weight: 400; font-style: italic; color: var(--text-1); max-width: 680px; line-height: 1.55; border-left: 2px solid var(--text-3); padding-left: 1.75rem; }
+  .about-body { padding: 5rem 4rem; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr; gap: 6rem; align-items: start; }
+  .about-copy p { font-size: 1rem; font-weight: 300; color: var(--text-2); line-height: 1.9; margin-bottom: 1.75rem; }
+  .about-copy p strong { color: var(--text-1); font-weight: 500; }
+  .about-sidebar { display: flex; flex-direction: column; gap: 2.5rem; }
+  .sidebar-block { border-left: 1px solid var(--border); padding-left: 1.5rem; }
+  .sidebar-block-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.75rem; }
+  .sidebar-block-value { font-size: 0.92rem; color: var(--text-2); line-height: 1.75; }
+  .sidebar-block-value ul { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+  .sidebar-block-value ul li::before { content: '— '; color: var(--text-3); }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(10,11,12,0.88); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 2rem; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--bg-card); border: 1px solid var(--border-hi); max-width: 740px; width: 100%; max-height: 88vh; overflow-y: auto; position: relative; animation: modal-in 0.2s ease; }
+  @keyframes modal-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .modal-close { position: absolute; top: 1.25rem; right: 1.25rem; background: transparent; border: 1px solid var(--border-hi); color: var(--text-2); font-size: 1rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+  .modal-close:hover { border-color: var(--accent); color: var(--white); }
+  .modal-screenshot { width: 100%; aspect-ratio: 16/9; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .modal-screenshot img { width: 100%; height: 100%; object-fit: cover; }
+  .placeholder { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; color: var(--text-3); font-size: 0.72rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; }
+  .placeholder-icon { width: 2.5rem; height: 2.5rem; border: 1px dashed var(--border-hi); display: flex; align-items: center; justify-content: center; font-size: 1rem; margin-bottom: 0.2rem; }
+  .screenshot-hint { font-size: 0.68rem; color: var(--text-3); text-align: center; padding: 0.5rem 1.5rem 0; font-style: italic; }
+  .modal-body { padding: 2.25rem; }
+  .modal-tag { display: inline-block; font-size: 0.62rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); margin-bottom: 0.85rem; }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 600; color: var(--white); margin-bottom: 1.25rem; line-height: 1.25; padding-right: 2.5rem; }
+  .modal-desc { font-size: 0.93rem; font-weight: 300; color: var(--text-2); line-height: 1.85; margin-bottom: 1.5rem; }
+  .modal-details { border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 2rem; }
+  .modal-detail-item { display: flex; flex-direction: column; gap: 0.25rem; }
+  .modal-detail-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3); }
+  .modal-detail-value { font-size: 0.9rem; color: var(--text-2); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 1.25rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    .hero { padding: 8rem 1.5rem 5rem; }
+    section { padding: 5rem 1.5rem; }
+    .skills-strip { padding: 2rem 1.5rem; }
+    .contact-section { padding: 5rem 1.5rem; grid-template-columns: 1fr; gap: 3rem; }
+    .about-hero { padding: 3rem 1.5rem; }
+    .about-body { padding: 3rem 1.5rem; grid-template-columns: 1fr; gap: 3rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .site-footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+
+  @media print {
+    nav { display: none; }
+    .hero { min-height: auto; padding-top: 3rem; }
+    .modal-overlay { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="nav-logo" onclick="showPage('home')">Luiza Boechat</button>
+  <ul class="nav-links">
+    <li><button onclick="showPage('home')">Home</button></li>
+    <li><button onclick="showPage('home'); smoothTo('work')">Work</button></li>
+    <li><button onclick="showPage('about')">About</button></li>
+    <li><button onclick="showPage('home'); smoothTo('contact')">Contact</button></li>
+  </ul>
+</nav>
+
+<!-- ════════════ HOME PAGE ════════════ -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-inner">
+      <p class="hero-eyebrow">Systems Architect</p>
+      <h1>Luiza<br>Boechat</h1>
+      <p class="hero-role">
+        <span>BizOps</span>
+        <span>Process Design & Automations</span>
+        <span>Internal Workflow Optimization</span>
+      </p>
+      <p class="hero-sub">I build the systems that keep companies from falling apart operationally.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn btn-primary" onclick="smoothTo('work'); return false;">View my work</a>
+        <button class="btn" onclick="showPage('about')">About me</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="skills-strip">
+    <div class="skills-inner">
+      <span class="skill-tag">Systems Design</span>
+      <span class="skill-tag">Workflow Automation</span>
+      <span class="skill-tag">Coda</span>
+      <span class="skill-tag">Zapier</span>
+      <span class="skill-tag">Base44</span>
+      <span class="skill-tag">CRM Development</span>
+      <span class="skill-tag">Recruitment Operations</span>
+      <span class="skill-tag">Project Management</span>
+      <span class="skill-tag">Time Tracking</span>
+      <span class="skill-tag">No-code Tools</span>
+    </div>
+  </div>
+
+  <section id="work">
+    <p class="section-label">Selected work</p>
+    <h2 class="section-title">Projects & systems</h2>
+    <div class="projects-grid">
+
+      <div class="project-card" onclick="openModal('pipeline')">
+        <span class="project-tag">Recruitment Operations</span>
+        <h3 class="project-title">Entrepreneur's Apprentice Recruitment Pipeline</h3>
+        <p class="project-desc">Full end-to-end pipeline tracking every applicant from first form submission to apprentice pool — one source of truth for all decisions.</p>
+        <div class="project-tool">Coda · Equityhammer</div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <div class="project-card" onclick="openModal('crm')">
+        <span class="project-tag">Custom CRM</span>
+        <h3 class="project-title">Mobile-First CRM for a Non-Technical Client</h3>
+        <p class="project-desc">Custom-built CRM in Base44 designed for mobile — so simple and friction-free the client actually uses it daily.</p>
+        <div class="project-tool">Base44 · Client project</div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <div class="project-card" onclick="openModal('team')">
+        <span class="project-tag">Team Management</span>
+        <h3 class="project-title">Team Pages with To-Dos & Action Buttons</h3>
+        <p class="project-desc">Structured team hubs in Coda with task lists and action buttons — making team progress visible and actionable without endless check-ins.</p>
+        <div class="project-tool">Coda</div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <div class="project-card" onclick="openModal('pm')">
+        <span class="project-tag">Project Management</span>
+        <h3 class="project-title">Project Management Tasks View</h3>
+        <p class="project-desc">Consolidated, filterable task view giving teams a clear picture of what's in progress, blocked, or done — no tool-switching required.</p>
+        <div class="project-tool">Coda</div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <div class="project-card" onclick="openModal('time')">
+        <span class="project-tag">Productivity</span>
+        <h3 class="project-title">Time Tracking Hub</h3>
+        <p class="project-desc">Centralized time tracking system turning a scattered, unreliable habit into clean data leadership could actually use for resourcing decisions.</p>
+        <div class="project-tool">Coda</div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <div class="project-card" onclick="openModal('zapier')">
+        <span class="project-tag">Automation</span>
+        <h3 class="project-title">Workflow Automations</h3>
+        <p class="project-desc">Multiple Zapier automations built around specific friction points — connecting tools, routing tasks, and removing the busywork.</p>
+        <div class="project-tool">Zapier · Multiple clients</div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <div class="contact-section" id="contact">
+    <div class="contact-left">
+      <p class="section-label">Let's connect</p>
+      <h2 class="section-title">Let's talk.</h2>
+      <p class="contact-philosophy">
+        I build operational systems for companies that have outgrown their current setup. That usually means messy processes, tools that don't talk to each other, or work that's falling through the cracks.
+      </p>
+      <p class="contact-philosophy">
+        If any of that sounds familiar, just reach out. You don't need to come with a brief — a "this is a mess and I don't know where to start" is more than enough.
+      </p>
+    </div>
+    <div class="contact-right">
+      <p class="contact-form-label">Get in touch</p>
+      <div class="contact-detail">
+        <p class="contact-detail-label">Email</p>
+        <a href="/cdn-cgi/l/email-protection#402c2f35222f252328213400272d21292c6e232f2d"><span class="__cf_email__" data-cfemail="016d6e74636e646269607541666c60686d2f626e6c">[email&#160;protected]</span></a>
+      </div>
+      <div class="contact-detail">
+        <p class="contact-detail-label">Focus areas</p>
+        <span style="font-size:0.9rem; color:var(--text-2); line-height:1.85; display:block;">BizOps · Process Design<br>Automations · Workflow Optimization</span>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span class="footer-name">Luiza Boechat</span>
+    <span class="footer-copy">Systems Architect · 2025</span>
+  </footer>
+
+</div>
+
+<!-- ════════════ ABOUT PAGE ════════════ -->
+<div class="page" id="page-about">
+  <div class="about-page">
+    <div class="about-hero">
+      <p class="section-label">About me</p>
+      <h2 class="about-name">Luiza Boechat</h2>
+      <p class="about-roles">
+        <span>BizOps</span>
+        <span>Process Design & Automations</span>
+        <span>Internal Workflow Optimization</span>
+      </p>
+      <p class="about-tagline">
+        I build the systems that keep companies from falling apart operationally.
+      </p>
+    </div>
+
+    <div class="about-body">
+      <div class="about-copy">
+        <p>I work in operations — specifically the part where things are still a mess. Processes that live in someone's head, tools that aren't connected, teams that spend more time managing information than doing actual work.</p>
+        <p>I come in, figure out what's actually broken, and build something that fixes it properly. That usually means a system in Coda, an automation in Zapier, or a custom tool in Base44 — whatever makes the most sense for how the team actually works.</p>
+        <p>I've built recruitment pipelines, CRMs, team management hubs, time tracking systems, and a lot of automations. The common thread is that they all get used, because they're built around real workflows, not ideal ones.</p>
+        <p>Past managers have described me as someone who brings order to work that would otherwise stay messy. That's probably the most accurate thing anyone has said about what I do.</p>
+        <div style="margin-top: 2.5rem;">
+          <button class="btn btn-primary" onclick="showPage('home'); smoothTo('contact')">Get in touch</button>
+        </div>
+      </div>
+
+      <div class="about-sidebar">
+        <div class="sidebar-block">
+          <p class="sidebar-block-label">Core tools</p>
+          <div class="sidebar-block-value">
+            <ul>
+              <li>Coda</li>
+              <li>Zapier</li>
+              <li>Base44</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <p class="sidebar-block-label">Specialties</p>
+          <div class="sidebar-block-value">
+            <ul>
+              <li>BizOps</li>
+              <li>Process Design</li>
+              <li>Automations</li>
+              <li>Internal Workflow Optimization</li>
+              <li>CRM Development</li>
+              <li>Recruitment Ops</li>
+            </ul>
+          </div>
+        </div>
+        <div class="sidebar-block">
+          <p class="sidebar-block-label">Contact</p>
+          <div class="sidebar-block-value">
+            <a href="/cdn-cgi/l/email-protection#026e6d77606d67616a637642656f636b6e2c616d6f" style="color:var(--text-2); text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='var(--text-1)'" onmouseout="this.style.color='var(--text-2)'"><span class="__cf_email__" data-cfemail="95f9fae0f7faf0f6fdf4e1d5f2f8f4fcf9bbf6faf8">[email&#160;protected]</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span class="footer-name">Luiza Boechat</span>
+    <span class="footer-copy">Systems Architect · 2025</span>
+  </footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-screenshot" id="modal-screenshot"></div>
+    <p class="screenshot-hint" id="screenshot-hint"></p>
+    <div class="modal-body">
+      <span class="modal-tag" id="modal-tag"></span>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <p class="modal-desc" id="modal-desc"></p>
+      <div class="modal-details" id="modal-details"></div>
+    </div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function smoothTo(id) {
+  setTimeout(function() {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 80);
+}
+
+var projects = {
+  pipeline: {
+    tag: "Recruitment Operations",
+    title: "Entrepreneur's Apprentice Recruitment Pipeline",
+    desc: "Designed and built a full end-to-end recruitment pipeline for Equityhammer's Entrepreneur's Apprentice Program. The system tracked every applicant from their first form submission all the way through to being added to the apprentice pool — centralizing all applicant data, stages, and decisions in one place. This eliminated scattered spreadsheets, gave the team full visibility over candidate status, and made the decision-making process far more consistent and auditable.",
+    tool: "Coda", client: "Equityhammer", type: "Systems Design · Recruitment Ops", screenshot: ""
+  },
+  crm: {
+    tag: "Custom CRM",
+    title: "Mobile-First CRM for a Non-Technical Client",
+    desc: "Built a fully custom CRM application in Base44 for a client who found traditional CRM platforms too overwhelming. The solution was designed specifically for mobile — simple interface, minimal steps, fast to update. The goal was to remove every possible reason not to log a contact or follow-up. The client now actively uses it daily, something that had never happened with any off-the-shelf CRM before.",
+    tool: "Base44", client: "Private client", type: "CRM Development · Mobile UX", screenshot: ""
+  },
+  team: {
+    tag: "Team Management",
+    title: "Team Pages with To-Dos & Action Buttons",
+    desc: "Created structured team hub pages in Coda where each team member had a dedicated space with their task lists, relevant action buttons, and important context for their role. The system reduced the need for constant status check-ins by making progress visible and actionable at a glance — everyone knew what was expected, and managers could get a quick read without interrupting anyone's flow.",
+    tool: "Coda", client: "Internal team", type: "Team Management · Workflow Design", screenshot: ""
+  },
+  pm: {
+    tag: "Project Management",
+    title: "Project Management Tasks View",
+    desc: "Built a consolidated project management view in Coda that brought together tasks from across the organization into a unified, filterable interface. Teams could filter by owner, status, project, or deadline — and get a clear picture of what was in progress, blocked, or completed without switching between multiple tools or chasing updates.",
+    tool: "Coda", client: "Internal team", type: "Project Management · Data Views", screenshot: ""
+  },
+  time: {
+    tag: "Productivity",
+    title: "Time Tracking Hub",
+    desc: "Developed a centralized time tracking system in Coda to help teams log hours, categorize work by project or client, and surface insights on where time was actually going. Turned a previously scattered and unreliable habit into a clean, consistent process — and gave leadership the data they needed to make better resourcing decisions.",
+    tool: "Coda", client: "Internal team", type: "Productivity · Reporting", screenshot: ""
+  },
+  zapier: {
+    tag: "Automation",
+    title: "Workflow Automations",
+    desc: "Designed and implemented multiple Zapier automations to connect tools, eliminate repetitive manual tasks, and keep data in sync across platforms. Each automation was built around a specific friction point — whether that was manually copying form responses, triggering notifications, updating records, or routing tasks to the right people. The result was less busywork and fewer things falling through the cracks.",
+    tool: "Zapier", client: "Multiple clients", type: "Automation · Workflow Design", screenshot: ""
+  }
+};
+
+function openModal(id) {
+  var p = projects[id];
+  document.getElementById('modal-tag').textContent = p.tag;
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-desc').textContent = p.desc;
+  document.getElementById('modal-details').innerHTML =
+    '<div class="modal-detail-item"><span class="modal-detail-label">Tool</span><span class="modal-detail-value">' + p.tool + '</span></div>' +
+    '<div class="modal-detail-item"><span class="modal-detail-label">Client / Context</span><span class="modal-detail-value">' + p.client + '</span></div>' +
+    '<div class="modal-detail-item"><span class="modal-detail-label">Type</span><span class="modal-detail-value">' + p.type + '</span></div>';
+  var sc = document.getElementById('modal-screenshot');
+  var hint = document.getElementById('screenshot-hint');
+  if (p.screenshot) {
+    sc.innerHTML = '<img src="' + p.screenshot + '" alt="' + p.title + '" />';
+    hint.textContent = '';
+  } else {
+    sc.innerHTML = '<div class="placeholder"><div class="placeholder-icon">[ ]</div>Screenshot coming soon</div>';
+    hint.textContent = "To add a screenshot: open the HTML file, find this project's screenshot field, and paste your image URL.";
+  }
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overf
